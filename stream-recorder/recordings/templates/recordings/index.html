@@ -1,0 +1,33 @@
+{% extends 'recordings/template_base.html' %}
+{% block content %}
+    <h1>Streams</h1>
+
+
+    <!-- Define a video with sources to attach Fluid Player to -->
+    {% for source in sources %}
+        <h2>{{ source.title }}</h2>
+        <video width="640" height="360" id="{{ source.mySlug }}" controls>
+            <source src="{{ source.hls_url }}" type="application/x-mpegURL">
+        </video>
+    {% endfor %}
+
+    <!-- Place before </body> tag -->
+    <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
+    <script>
+        // fluidPlayer method is global when CDN distribution is used.
+        {% for source in sources %}
+            var {{ mySlug }}_player = fluidPlayer("{{ source.mySlug }}",
+                {
+                    hls: {
+                        overrideNative: true
+                    },
+                    layoutControls: {
+                        miniPlayer: {
+                            enabled: false,
+                        },
+                    },
+                }
+            );
+        {% endfor %}
+    </script>
+{% endblock %}

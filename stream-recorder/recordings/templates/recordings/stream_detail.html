@@ -1,0 +1,15 @@
+<html>
+  <body>
+    <h1>{{ source.title }}</h1>
+    {% if source.rebroadcast_active %}
+      <video width="640" height="360" controls>
+        <!-- Point to the local .m3u8 (HLS) file served by your domain -->
+        <source src="{{ source.hls_url }}" type="application/vnd.apple.mpegurl">
+        Your browser does not support HTML5 video with HLS.
+      </video>
+    {% else %}
+      <p>This stream is not currently being rebroadcast.</p>
+      <a href="{% url 'start_rebroadcast' source.pk %}">Start rebroadcasting</a>
+    {% endif %}
+  </body>
+</html>
