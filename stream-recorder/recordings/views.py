@@ -11,9 +11,9 @@ def index(request):
 
 def start_rebroadcast_view(request, pk):
     source = get_object_or_404(RecordingSource, pk=pk)
-    if not source.rebroadcast_active:
+    #if not source.rebroadcast_active:
         # Fire off the background task
-        continuous_rebroadcast.delay(stream_id=pk)
+        # continuous_rebroadcast.delay(stream_id=pk)
     return redirect('stream_detail', pk=pk)
 
 def stop_rebroadcast_view(request, pk):

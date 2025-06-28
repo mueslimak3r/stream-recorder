@@ -7,13 +7,27 @@ import uuid
     
     # Create your models here.
 class RecordingSource(models.Model):
+    RECORDINGTYPE_UNKNOWN = -1
+    RECORDINGTYPE_AUDIO = 0
+    RECORDINGTYPE_VIDEO = 1
+
+    sourceType = (
+        (RECORDINGTYPE_UNKNOWN, 'Unknown'),
+        (RECORDINGTYPE_AUDIO, 'Audio'),
+        (RECORDINGTYPE_VIDEO, 'Video'),
+    )
     title = models.CharField(max_length=200)
     source_url = models.URLField()
     created_date = models.DateTimeField(default=timezone.now)
     last_publish_date = models.DateTimeField(blank=True, null=True)
     rebroadcast_active = models.BooleanField(default=False)
+    recording_active = models.BooleanField(default=False)
+    recording_worker = 
+    recording_enabled = models.BooleanField(default=False)
+    has_recordings = models.BooleanField(default=False)
     mySlug = models.SlugField(default=uuid.uuid4, blank=True)
     hls_url = models.URLField(blank=True, null=True)
+    stream_type = models.IntegerField(choices=sourceType, default=RECORDINGTYPE_UNKNOWN)
 
     def mark_alive(self):
         self.last_publish_date = timezone.now()
